@@ -7,7 +7,7 @@ local frame = Instance.new("Frame")
 frame.Size = UDim2.new(0, 100, 0, 50)  -- Mała ramka (100x50)
 frame.Position = UDim2.new(0, 10, 0.5, -25)  -- Ramka w lewym górnym rogu
 frame.BackgroundColor3 = Color3.fromRGB(169, 169, 169)  -- Szary kolor tła ramki
-frame.Visible = false  -- Ukrywamy GUI na początku
+frame.Visible = true  -- Ramka jest widoczna przez cały czas
 frame.Parent = screenGui
 
 -- Tworzenie przycisku Freeze Trade
@@ -37,16 +37,6 @@ local function freezeTrade()
     end
 end
 
--- Funkcja monitorująca rozpoczęcie wymiany
-local function onTradeStarted()
-    frame.Visible = true  -- Pokazujemy ramkę z przyciskiem, gdy zaczyna się wymiana
-end
-
--- Funkcja monitorująca zakończenie wymiany
-local function onTradeEnded()
-    frame.Visible = false  -- Ukrywamy ramkę z przyciskiem, gdy wymiana zostaje zakończona
-end
-
 -- Po kliknięciu przycisku, wywołujemy funkcję freezeTrade
 freezeButton.MouseButton1Click:Connect(freezeTrade)
 
@@ -55,9 +45,13 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 -- Sprawdzamy, czy takie zdarzenie jest dostępne w ReplicatedStorage
 if ReplicatedStorage:FindFirstChild("TradeStarted") then
-    ReplicatedStorage.TradeStarted.OnClientEvent:Connect(onTradeStarted)
+    ReplicatedStorage.TradeStarted.OnClientEvent:Connect(function()
+        frame.Visible = true  -- Pokazujemy ramkę z przyciskiem, gdy zaczyna się wymiana
+    end)
 end
 
 if ReplicatedStorage:FindFirstChild("TradeEnded") then
-    ReplicatedStorage.TradeEnded.OnClientEvent:Connect(onTradeEnded)
+    ReplicatedStorage.TradeEnded.OnClientEvent:Connect(function()
+        frame.Visible = true  -- Ramka z przyciskiem ma pozostać widoczna po zakończeniu wymiany
+    end)
 end
