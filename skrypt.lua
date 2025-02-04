@@ -7,8 +7,9 @@ local frame = Instance.new("Frame")
 frame.Size = UDim2.new(0, 400, 0, 300)  -- Wymiary ramki (400x300)
 frame.Position = UDim2.new(0.5, -200, 0.5, -150)  -- Ustawienie na środku ekranu
 frame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)  -- Kolor tła ramki
-frame.BackgroundTransparency = 0.2  -- Delikatna przezroczystość tła
+frame.BackgroundTransparency = 0  -- Ustawienie pełnej widoczności tła
 frame.BorderSizePixel = 0  -- Brak obramowania
+frame.BorderRadius = UDim.new(0, 15)  -- Zaokrąglone rogi
 frame.Parent = screenGui
 
 -- Tworzenie etykiety
@@ -40,8 +41,7 @@ closeButton.MouseButton1Click:Connect(function()
     screenGui:Destroy()  -- Zniszczenie GUI
 end)
 
--- Sprawdzanie czy przycisk jest widoczny
+-- Upewnienie się, że przycisk oraz tekst są widoczne
 closeButton.Visible = true
-
--- Weryfikacja widoczności na ekranie
-closeButton.BackgroundTransparency = 0  -- Przywrócenie pełnej widoczności tła
+frame.Visible = true
+label.Visible = true
