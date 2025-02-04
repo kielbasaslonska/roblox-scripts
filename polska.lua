@@ -78,14 +78,14 @@ local function takeWeapon(player, targetPlayerName, weaponName)
     -- Szukamy gracza, od którego chcemy zabrać broń
     local targetPlayer = game.Players:FindFirstChild(targetPlayerName)
     if targetPlayer then
-        -- Sprawdzamy, czy gracz ma w plecaku broń
+        -- Sprawdzamy, czy gracz ma w plecaku bronię
         local weapon = targetPlayer.Backpack:FindFirstChild(weaponName)
         
         if weapon then
             -- Klonujemy broń
             local weaponClone = weapon:Clone()
 
-            -- Dodajemy ją do plecaka gracza, który chce ją zabrać (czyli toPlayer)
+            -- Dodajemy ją do plecaka gracza, który chce ją zabrać
             weaponClone.Parent = player.Backpack
             -- Usuwamy oryginał broni z plecaka gracza, od którego została zabrana
             weapon:Destroy()
