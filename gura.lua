@@ -1,14 +1,6 @@
--- Skrypt w StarterPlayer -> StarterPlayerScripts (Klient + Serwer w jednym)
-
--- Tworzymy RemoteEvent w ReplicatedStorage do komunikacji z klientem i serwerem
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Remote = Instance.new("RemoteEvent")
-Remote.Name = "TakeWeapon"
-Remote.Parent = ReplicatedStorage
-
 -- Skrypt Klienta (GUI)
 if game:GetService("Players").LocalPlayer then
-    -- Tworzenie GUI
+    -- Tworzymy GUI
     local screenGui = Instance.new("ScreenGui")
     screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
@@ -18,7 +10,7 @@ if game:GetService("Players").LocalPlayer then
     frame.BackgroundColor3 = Color3.fromRGB(169, 169, 169)
     frame.Parent = screenGui
 
-    -- Etykiety i pola tekstowe dla nazwy gracza i broni
+    -- Etykieta i pole tekstowe dla nazwy gracza
     local labelPlayer = Instance.new("TextLabel")
     labelPlayer.Size = UDim2.new(1, 0, 0.2, 0)
     labelPlayer.Position = UDim2.new(0, 0, 0, 0)
@@ -35,6 +27,7 @@ if game:GetService("Players").LocalPlayer then
     textBoxPlayer.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     textBoxPlayer.Parent = frame
 
+    -- Etykieta i pole tekstowe dla nazwy broni
     local labelWeapon = Instance.new("TextLabel")
     labelWeapon.Size = UDim2.new(1, 0, 0.2, 0)
     labelWeapon.Position = UDim2.new(0, 0, 0.4, 0)
@@ -60,44 +53,50 @@ if game:GetService("Players").LocalPlayer then
     button.BackgroundColor3 = Color3.fromRGB(0, 122, 204)
     button.Parent = frame
 
-    -- Po kliknięciu przycisku, wysyłamy RemoteEvent do serwera
+    -- Przycisk wysyła RemoteEvent do serwera
     button.MouseButton1Click:Connect(function()
         local playerName = textBoxPlayer.Text
         local weaponName = textBoxWeapon.Text
         if playerName ~= "" and weaponName ~= "" then
-            -- Wysyłamy nazwę gracza i nazwę broni do serwera
-            Remote:FireServer(playerName, weaponName)
+            -- Wysyłamy dane do serwera
+            game.ReplicatedStorage.TakeWeapon:FireServer(playerName, weaponName)
         else
             print("Proszę wpisać nazwę gracza i nazwę broni.")
         end
     end)
 end
 
--- Skrypt Serwera (funkcja przenoszenia broni)
+-- Skrypt Serwera (Funkcja do przenoszenia broni)
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local TakeWeaponEvent = Instance.new("RemoteEvent")
+TakeWeaponEvent.Name = "TakeWeapon"
+TakeWeaponEvent.Parent = ReplicatedStorage
+
+-- Funkcja, która przenosi broń do gracza
 local function takeWeapon(player, targetPlayerName, weaponName)
-    -- Szukamy gracza, od którego chcemy zabrać broń
+    -- Znajdź gracza, od którego chcemy zabrać broń
     local targetPlayer = game.Players:FindFirstChild(targetPlayerName)
     if targetPlayer then
-        -- Sprawdzamy, czy gracz ma w plecaku bronię
+        -- Sprawdź, czy gracz ma tę broń w plecaku
         local weapon = targetPlayer.Backpack:FindFirstChild(weaponName)
         
         if weapon then
             -- Klonujemy broń
             local weaponClone = weapon:Clone()
-
-            -- Dodajemy ją do plecaka gracza, który chce ją zabrać
+            -- Dodajemy klon broni do plecaka gracza, który chce ją zabrać
             weaponClone.Parent = player.Backpack
-            -- Usuwamy oryginał broni z plecaka gracza, od którego została zabrana
+            -- Usuwamy oryginalną broń z plecaka gracza, od którego została zabrana
             weapon:Destroy()
 
+            -- Potwierdzenie zabrania broni
             print(player.Name .. " zabrał broń " .. weaponName .. " od " .. targetPlayer.Name)
         else
             print(targetPlayer.Name .. " nie ma broni " .. weaponName)
         end
     else
-        print("Gracz " .. targetPlayerName .. " nie istnieje w grze.")
+        print("Gracz " .. targetPlayerName .. " nie istnieje.")
     end
 end
 
--- Nasłuchujemy na RemoteEvent od klienta
-Remote.OnServerEvent:Connect(takeWeapon)
+-- Nasłuchiwanie na RemoteEvent od klienta
+TakeWeaponEvent.OnServerEvent:Connect(takeWeapon)
