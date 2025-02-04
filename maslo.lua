@@ -28,7 +28,7 @@ local function freezeTrade()
         if tradeWindow then
             -- Przykładowa logika zamrażania wymiany
             -- Może tu być odpowiednia funkcjonalność zależna od systemu, np. blokada przycisków
-            tradeWindow.Enabled = false  -- Użyjemy przykładowo ukrywania okna
+            tradeWindow.Enabled = false  -- Używamy przykładowo ukrywania okna
             print("Trade zamrożone!")
         end
     end
@@ -36,3 +36,25 @@ end
 
 -- Po kliknięciu przycisku, funkcja freezeTrade() jest wywoływana
 button.MouseButton1Click:Connect(freezeTrade)
+
+-- Logika przeciągania przycisku
+local dragging = false  -- Określa, czy przycisk jest w trybie przeciągania
+local dragInput, startPos, startPosFrame
+
+button.MouseButton1Down:Connect(function(input)
+    dragging = true
+    startPos = input.Position
+    startPosFrame = frame.Position
+
+    -- Modyfikujemy ramkę na podstawie przesunięcia myszy
+    input.Changed:Connect(function()
+        if dragging then
+            local delta = input.Position - startPos
+            frame.Position = UDim2.new(startPosFrame.X.Scale, startPosFrame.X.Offset + delta.X, startPosFrame.Y.Scale, startPosFrame.Y.Offset + delta.Y)
+        end
+    end)
+end)
+
+button.MouseButton1Up:Connect(function()
+    dragging = false  -- Zakończenie przeciągania
+end)
