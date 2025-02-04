@@ -1,5 +1,6 @@
 -- Tworzenie GUI
 local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "MyScreenGui"  -- Nazwa GUI
 screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
 -- Tworzenie ramki
@@ -42,6 +43,4 @@ closeButton.MouseButton1Click:Connect(function()
 end)
 
 -- Upewnienie się, że przycisk oraz tekst są widoczne
-closeButton.Visible = true
-frame.Visible = true
-label.Visible = true
+screenGui.Enabled = true  -- Upewniamy się, że GUI jest włączone
