@@ -1,4 +1,3 @@
--- Tworzenie GUI
 local screenGui = Instance.new("ScreenGui")
 screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
