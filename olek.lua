@@ -39,3 +39,6 @@ closeButton.Parent = frame
 closeButton.MouseButton1Click:Connect(function()
     screenGui:Destroy()  -- Zniszczenie GUI
 end)
+
+-- Sprawdzenie widoczności przycisku w GUI
+closeButton.Visible = true
