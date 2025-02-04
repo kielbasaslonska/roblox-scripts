@@ -2,20 +2,21 @@
 local screenGui = Instance.new("ScreenGui")
 screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
--- Tworzenie ramki
+-- Tworzenie bardzo małej ramki
 local frame = Instance.new("Frame")
-frame.Size = UDim2.new(0, 400, 0, 300)  -- Wymiary ramki (400x300)
-frame.Position = UDim2.new(0.5, -200, 0.5, -150)  -- Ustawienie na środku ekranu
+frame.Size = UDim2.new(0, 100, 0, 50)  -- Mała ramka (100x50)
+frame.Position = UDim2.new(0, 10, 0.5, -25)  -- Ramka w lewym górnym rogu
 frame.BackgroundColor3 = Color3.fromRGB(169, 169, 169)  -- Szary kolor tła ramki
 frame.Parent = screenGui
 
--- Tworzenie przycisku zamrażania wymiany
+-- Tworzenie przycisku Freeze Trade
 local freezeButton = Instance.new("TextButton")
-freezeButton.Size = UDim2.new(0, 150, 0, 50)
-freezeButton.Position = UDim2.new(0, 125, 0.5, -25)
+freezeButton.Size = UDim2.new(1, 0, 1, 0)  -- Przycisk wypełniający całą ramkę
 freezeButton.Text = "Freeze Trade"  -- Tekst przycisku
-freezeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+freezeButton.TextColor3 = Color3.fromRGB(255, 255, 255)  -- Kolor tekstu (biały)
 freezeButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)  -- Kolor tła przycisku (czerwony)
+freezeButton.Font = Enum.Font.GothamBold
+freezeButton.TextSize = 14
 freezeButton.Parent = frame  -- Dodanie przycisku do ramki
 
 -- Zmienna do określenia, czy wymiana jest zamrożona
