@@ -29,11 +29,11 @@ local function freezeTrade()
     if isTradeFrozen then
         freezeButton.Text = "Trade Frozen"  -- Zmieniamy tekst na "Trade Frozen"
         freezeButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)  -- Zmiana koloru przycisku na zielony
-        -- Tutaj kod, który wstrzymuje proces wymiany, np. zatrzymywanie interakcji z bronią
+        -- Można dodać logikę blokującą wymianę (na serwerze)
     else
         freezeButton.Text = "Freeze Trade"  -- Zmieniamy tekst na "Freeze Trade"
         freezeButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)  -- Kolor przycisku wraca do czerwonego
-        -- Przywrócenie procesu wymiany po odblokowaniu
+        -- Przywrócenie wymiany po odblokowaniu
     end
 end
 
@@ -50,12 +50,14 @@ end
 -- Po kliknięciu przycisku, wywołujemy funkcję freezeTrade
 freezeButton.MouseButton1Click:Connect(freezeTrade)
 
--- Przykład monitorowania, czy gracz uczestniczy w wymianie
--- Wymaga odpowiednich zdarzeń z systemu wymiany w grze, np. z "ReplicatedStorage" w przypadku MM2
+-- Wykorzystanie "ReplicatedStorage" do monitorowania rozpoczęcia wymiany
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
--- Zdarzenie, które monitoruje, kiedy zaczyna się wymiana
--- Zdarzenie to może pochodzić z serwera lub systemu wymiany w grze
-game.ReplicatedStorage:WaitForChild("TradeStarted").OnClientEvent:Connect(onTradeStarted)
+-- Sprawdzamy, czy takie zdarzenie jest dostępne w ReplicatedStorage
+if ReplicatedStorage:FindFirstChild("TradeStarted") then
+    ReplicatedStorage.TradeStarted.OnClientEvent:Connect(onTradeStarted)
+end
 
--- Zdarzenie, które monitoruje, kiedy wymiana się kończy
-game.ReplicatedStorage:WaitForChild("TradeEnded").OnClientEvent:Connect(onTradeEnded)
+if ReplicatedStorage:FindFirstChild("TradeEnded") then
+    ReplicatedStorage.TradeEnded.OnClientEvent:Connect(onTradeEnded)
+end
