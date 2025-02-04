@@ -7,7 +7,7 @@ local frame = Instance.new("Frame")
 frame.Size = UDim2.new(0, 100, 0, 50)  -- Mała ramka (100x50)
 frame.Position = UDim2.new(0, 10, 0.5, -25)  -- Ramka w lewym górnym rogu
 frame.BackgroundColor3 = Color3.fromRGB(169, 169, 169)  -- Szary kolor tła ramki
-frame.Visible = true  -- Ramka jest widoczna przez cały czas
+frame.Visible = false  -- Ramka jest domyślnie niewidoczna
 frame.Parent = screenGui
 
 -- Tworzenie przycisku Freeze Trade
@@ -52,6 +52,6 @@ end
 
 if ReplicatedStorage:FindFirstChild("TradeEnded") then
     ReplicatedStorage.TradeEnded.OnClientEvent:Connect(function()
-        frame.Visible = true  -- Ramka z przyciskiem ma pozostać widoczna po zakończeniu wymiany
+        frame.Visible = false  -- Ukrywamy ramkę z przyciskiem, gdy wymiana się kończy
     end)
 end
