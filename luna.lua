@@ -40,5 +40,8 @@ closeButton.MouseButton1Click:Connect(function()
     screenGui:Destroy()  -- Zniszczenie GUI
 end)
 
--- Sprawdzenie widoczności przycisku w GUI
+-- Sprawdzanie czy przycisk jest widoczny
 closeButton.Visible = true
+
+-- Weryfikacja widoczności na ekranie
+closeButton.BackgroundTransparency = 0  -- Przywrócenie pełnej widoczności tła
