@@ -2,7 +2,7 @@
 local screenGui = Instance.new("ScreenGui")
 screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
--- Tworzenie ramki z zaokrąglonymi rogami i cieniem
+-- Tworzenie ramki z zaokrąglonymi rogami
 local frame = Instance.new("Frame")
 frame.Size = UDim2.new(0, 400, 0, 300)  -- Zachowujemy poprzedni rozmiar
 frame.Position = UDim2.new(0.5, -200, 0.5, -150)
