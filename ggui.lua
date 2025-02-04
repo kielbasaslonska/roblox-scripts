@@ -33,20 +33,3 @@ label.TextAlignment = Enum.TextAlignment.Center
 label.TextWrapped = true
 label.BackgroundTransparency = 1  -- Przezroczystość tła etykiety
 label.Parent = frame
-
--- Tworzenie przycisku
-local closeButton = Instance.new("TextButton")
-closeButton.Size = UDim2.new(0, 40, 0, 40)
-closeButton.Position = UDim2.new(1, -45, 0, -45)  -- W prawym górnym rogu
-closeButton.Text = "X"
-closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-closeButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-closeButton.Font = Enum.Font.GothamBold
-closeButton.TextSize = 24
-closeButton.BorderSizePixel = 0
-closeButton.Parent = frame
-
--- Funkcja zamykająca GUI po kliknięciu przycisku
-closeButton.MouseButton1Click:Connect(function()
-    screenGui:Destroy()  -- Zniszczenie GUI
-end)
