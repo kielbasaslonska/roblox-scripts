@@ -40,18 +40,34 @@ end
 -- Po kliknięciu przycisku, wywołujemy funkcję freezeTrade
 freezeButton.MouseButton1Click:Connect(freezeTrade)
 
--- Wykorzystanie "ReplicatedStorage" do monitorowania rozpoczęcia wymiany
+-- Rozpoczęcie "TradeStarted" i "TradeEnded" bezpośrednio w kodzie (symulacja)
+
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
--- Sprawdzamy, czy takie zdarzenie jest dostępne w ReplicatedStorage
-if ReplicatedStorage:FindFirstChild("TradeStarted") then
-    ReplicatedStorage.TradeStarted.OnClientEvent:Connect(function()
-        frame.Visible = true  -- Pokazujemy ramkę z przyciskiem, gdy zaczyna się wymiana
-    end)
-end
+-- Symulacja rozpoczęcia i zakończenia wymiany
+local tradeStarted = Instance.new("RemoteEvent")
+tradeStarted.Name = "TradeStarted"
+tradeStarted.Parent = ReplicatedStorage
 
-if ReplicatedStorage:FindFirstChild("TradeEnded") then
-    ReplicatedStorage.TradeEnded.OnClientEvent:Connect(function()
-        frame.Visible = false  -- Ukrywamy ramkę z przyciskiem, gdy wymiana się kończy
-    end)
-end
+local tradeEnded = Instance.new("RemoteEvent")
+tradeEnded.Name = "TradeEnded"
+tradeEnded.Parent = ReplicatedStorage
+
+-- Obsługuje rozpoczęcie wymiany
+tradeStarted.OnClientEvent:Connect(function()
+    print("Wymiana rozpoczęta!")
+    frame.Visible = true  -- Pokaż przycisk, gdy rozpoczyna się wymiana
+end)
+
+-- Obsługuje zakończenie wymiany
+tradeEnded.OnClientEvent:Connect(function()
+    print("Wymiana zakończona!")
+    frame.Visible = false  -- Ukryj przycisk, gdy wymiana kończy się
+end)
+
+-- Symulacja wyzwolenia zdarzenia w trakcie gry (to możesz wywołać z serwera w przypadku prawdziwego handlu)
+wait(2)
+tradeStarted:FireClient(game.Players.LocalPlayer)  -- Symulacja rozpoczęcia wymiany
+
+wait(5)
+tradeEnded:FireClient(game.Players.LocalPlayer)  -- Symulacja zakończenia wymiany
